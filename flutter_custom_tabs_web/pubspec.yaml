@@ -14,7 +14,7 @@ dependencies:
     sdk: flutter
   flutter_custom_tabs_platform_interface:
     git:
-      url: https://github.com/em-yhoshino/flutter_custom_tabs.git
+      url: https://github.com/snkrdunk/flutter_custom_tabs.git
       ref: develop
       path: flutter_custom_tabs_platform_interface
   meta: ^1.3.0
