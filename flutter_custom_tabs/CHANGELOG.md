@@ -1,3 +1,6 @@
+## 1.1.0
+- Add closeAllIfPossible() to launcher([#1](https://github.com/snkrdunk/flutter_custom_tabs/pull/1))
+
 ## 1.0.4
 
 - Update to Android CustomTabsLauncher 1.0.6([#62](https://github.com/droibit/flutter_custom_tabs/pull/62)).
