@@ -1,0 +1,53 @@
+name: CI for android implementation package
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'flutter_custom_tabs_android/**'
+      - '.github/workflows/android_implementation_package.yml'
+      - '!**.md'
+  pull_request:
+    paths:
+      - 'flutter_custom_tabs_android/**'
+      - '.github/workflows/android_implementation_package.yml'
+      - '!**.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: 17
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+    - name: Get flutter dependencies
+      run: flutter pub get
+      working-directory: ./flutter_custom_tabs_android
+    - name: Check for any formatting issues in the code
+      run: dart format -o none --set-exit-if-changed $(find ./lib ./test -name "*.dart" -not -name "*.*g.dart")
+      working-directory: ./flutter_custom_tabs_android
+    - name: Statically analyze the Dart code for any errors
+      run: flutter analyze .
+      working-directory: ./flutter_custom_tabs_android
+    - name: Run Flutter unit tests
+      run: flutter test
+      working-directory: ./flutter_custom_tabs_android
+    - name: Build example android app
+      run: flutter build apk --release
+      working-directory: ./flutter_custom_tabs_android/example
+    - name: Run Android lint
+      run: ./gradlew :flutter_custom_tabs_android:lint
+      working-directory: ./flutter_custom_tabs_android/example/android
+    - name: Run Android unit tests
+      run: ./gradlew :flutter_custom_tabs_android:testDebugUnitTest
+      working-directory: ./flutter_custom_tabs_android/example/android

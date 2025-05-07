@@ -1,7 +1,7 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import '../flutter_custom_tabs_platform_interface.dart';
 import 'method_channel_custom_tabs.dart';
+import 'types.dart';
 
 /// The interface that implementations of flutter_custom_tabs must implement.
 ///
@@ -29,17 +29,40 @@ abstract class CustomTabsPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  /// Open the specified Web URL with Custom Tabs or implementation by platform.
+  /// Passes [url] with options to the underlying platform for launching a Custom Tab.
   Future<void> launch(
     String urlString, {
-    CustomTabsOption? customTabsOption,
-    SafariViewControllerOption? safariVCOption,
+    bool prefersDeepLink = false,
+    PlatformOptions? customTabsOptions,
+    PlatformOptions? safariVCOptions,
   }) {
     throw UnimplementedError('launch() has not been implemented.');
   }
 
-  /// Close all the launched implementation by platform if possible.
+  /// Closes all Custom Tabs that were opened earlier by [launch].
   Future<void> closeAllIfPossible() {
     throw UnimplementedError('closeAllIfPossible() has not been implemented.');
+  }
+
+  /// On Android, Warm up the browser process.
+  ///
+  /// Allows the browser application to pre-initialize itself in the background.
+  /// Significantly speeds up URL opening in the browser.
+  Future<PlatformSession?> warmup([PlatformOptions? options]) {
+    throw UnimplementedError('warmup() has not been implemented.');
+  }
+
+  /// Tells the browser of potential URLs that might be launched later,
+  /// improving performance when the URL is actually launched.
+  Future<PlatformSession?> mayLaunch(
+    List<String> urls, {
+    PlatformSession? session,
+  }) {
+    throw UnimplementedError('mayLaunchUrl() has not been implemented.');
+  }
+
+  /// Invalidates a session to release resources and properly dispose of it.
+  Future<void> invalidate(PlatformSession session) {
+    throw UnimplementedError('invalidate() has not been implemented.');
   }
 }

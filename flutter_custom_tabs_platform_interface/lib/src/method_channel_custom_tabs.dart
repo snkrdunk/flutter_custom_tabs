@@ -12,13 +12,15 @@ class MethodChannelCustomTabs extends CustomTabsPlatform {
   @override
   Future<void> launch(
     String urlString, {
-    CustomTabsOption? customTabsOption,
-    SafariViewControllerOption? safariVCOption,
+    bool prefersDeepLink = false,
+    PlatformOptions? customTabsOptions,
+    PlatformOptions? safariVCOptions,
   }) {
     final args = <String, dynamic>{
       'url': urlString,
-      'customTabsOption': customTabsOption?.toMap() ?? <String, dynamic>{},
-      'safariVCOption': safariVCOption?.toMap() ?? <String, dynamic>{}
+      'prefersDeepLink': prefersDeepLink,
+      'customTabsOptions': <String, dynamic>{},
+      'safariVCOptions': <String, dynamic>{},
     };
     return _channel.invokeMethod('launch', args);
   }
@@ -26,5 +28,26 @@ class MethodChannelCustomTabs extends CustomTabsPlatform {
   @override
   Future<void> closeAllIfPossible() {
     return _channel.invokeMethod('closeAllIfPossible');
+  }
+
+  @override
+  Future<PlatformSession?> warmup([PlatformOptions? options]) {
+    return _channel.invokeMethod('warmup', <String, dynamic>{});
+  }
+
+  @override
+  Future<PlatformSession?> mayLaunch(
+    List<String> urls, {
+    PlatformSession? session,
+  }) {
+    return _channel.invokeMethod('mayLaunch', <String, dynamic>{
+      'urls': urls,
+      'session': null,
+    });
+  }
+
+  @override
+  Future<void> invalidate(PlatformSession session) {
+    return _channel.invokeMethod('invalidate', <String, dynamic>{});
   }
 }

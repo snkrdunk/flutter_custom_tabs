@@ -1,0 +1,31 @@
+name: flutter_custom_tabs_android
+description: Android platform implementation of flutter_custom_tabs.
+version: 2.3.1
+homepage: https://github.com/droibit/flutter_custom_tabs
+repository: https://github.com/droibit/flutter_custom_tabs/tree/main/flutter_custom_tabs_android
+issue_tracker: https://github.com/droibit/flutter_custom_tabs/issues
+
+environment:
+  sdk: ^3.3.0
+  flutter: ">=3.19.0"
+
+flutter:
+  plugin:
+    implements: flutter_custom_tabs
+    platforms:
+      android:
+        package: com.github.droibit.flutter.plugins.customtabs
+        pluginClass: CustomTabsPlugin
+        dartPluginClass: CustomTabsPluginAndroid
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_custom_tabs_platform_interface: ^2.3.0
+  meta: ^1.10.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  pigeon: ^22.7.0

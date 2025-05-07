@@ -1,0 +1,9 @@
+analyzer:
+  exclude:
+    # Ignore generated files
+    - '**/*.g.dart'
+    - '**/*.mocks.dart' # Mockito @GenerateMocks
+
+linter:
+  rules:
+    depend_on_referenced_packages: false

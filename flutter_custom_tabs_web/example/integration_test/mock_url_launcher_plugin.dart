@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'dart:async';
 
 import 'package:mockito/mockito.dart';
 import 'package:url_launcher_web/url_launcher_web.dart';
@@ -28,7 +28,7 @@ class MockUrlLauncherPlugin extends Mock
     bool? universalLinksOnly = false,
     Map<String, String>? headers = const <String, String>{},
     String? webOnlyWindowName,
-  }) {
+  }) async {
     return super.noSuchMethod(
       Invocation.method(#launch, [
         url
@@ -49,7 +49,7 @@ class MockUrlLauncherPlugin extends Mock
   LinkDelegate get linkDelegate => throw UnimplementedError();
 
   @override
-  WindowBase openNewWindow(String url, {String? webOnlyWindowName}) {
+  bool openNewWindow(String url, {String? webOnlyWindowName}) {
     throw UnimplementedError();
   }
 }

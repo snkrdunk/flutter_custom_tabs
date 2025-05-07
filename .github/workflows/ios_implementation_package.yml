@@ -1,0 +1,67 @@
+name: CI for iOS implementation package
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'flutter_custom_tabs_ios/**'
+      - '.github/workflows/ios_implementation_package.yml'
+      - '!**.md'
+  pull_request:
+    paths:
+      - 'flutter_custom_tabs_ios/**'
+      - '.github/workflows/ios_implementation_package.yml'
+      - '!**.md'
+env:
+  DEVELOPER_DIR: /Applications/Xcode_16.3.app
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+    - uses: actions/checkout@v4
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+    - uses: irgaly/setup-mint@v1
+      with:
+        mint-directory: ./flutter_custom_tabs_ios
+    - name: Get flutter dependencies
+      run: flutter pub get
+      working-directory: ./flutter_custom_tabs_ios
+    - name: Check for any formatting issues in the code
+      run: dart format -o none --set-exit-if-changed $(find ./lib ./test -name "*.dart" -not -name "*.*g.dart")
+      working-directory: ./flutter_custom_tabs_ios
+    - name: Statically analyze the Dart code for any errors
+      run: flutter analyze .
+      working-directory: ./flutter_custom_tabs_ios
+    - name: Statically analyze the Swift code for any errors
+      run: make lint
+      working-directory: ./flutter_custom_tabs_ios
+    - name: Run flutter unit tests
+      run: flutter test
+      working-directory: ./flutter_custom_tabs_ios
+    - name: Build example iOS app
+      run: flutter build ios --no-codesign
+      working-directory: ./flutter_custom_tabs_ios/example
+    - name: Run iOS unit tests
+      run: make test
+      working-directory: ./flutter_custom_tabs_ios/example
+
+  spm-integration:
+    runs-on: macos-15
+    steps:
+    - uses: actions/checkout@v4
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+    - name: Enable Swift Package Manager integration
+      run: flutter config --enable-swift-package-manager        
+    - name: Get flutter dependencies
+      run: flutter pub get
+      working-directory: ./flutter_custom_tabs_ios
+    - name: Build example iOS app with SPM enabled
+      run: flutter build ios --no-codesign
+      working-directory: ./flutter_custom_tabs_ios/example

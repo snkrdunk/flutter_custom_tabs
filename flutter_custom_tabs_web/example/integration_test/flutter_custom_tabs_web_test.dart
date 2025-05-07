@@ -11,15 +11,16 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   late MockUrlLauncherPlugin mock;
-  late CustomTabsPlugin plugin;
+  late CustomTabsPluginWeb plugin;
   setUp(() {
     mock = MockUrlLauncherPlugin();
     UrlLauncherPlatform.instance = mock;
 
-    plugin = CustomTabsPlugin();
+    plugin = CustomTabsPluginWeb();
   });
 
-  testWidgets('launch: delegate to url_launcher_web', (WidgetTester _) async {
+  testWidgets('launch() delegate to "url_launcher_web"',
+      (WidgetTester _) async {
     when(mock.launch(
       any,
       useSafariVC: anyNamed('useSafariVC'),
@@ -31,13 +32,16 @@ void main() {
       webOnlyWindowName: anyNamed('webOnlyWindowName'),
     )).thenAnswer((_) async => true);
 
-    final url = 'https://example.com';
+    const url = 'https://example.com';
     await plugin.launch(
       url,
-      customTabsOption: const CustomTabsOption(),
-      safariVCOption: const SafariViewControllerOption(),
+      customTabsOptions: const _Options(),
+      safariVCOptions: const _Options(),
     );
-
     verify(mock.launch(url));
   });
+}
+
+class _Options implements PlatformOptions {
+  const _Options();
 }
