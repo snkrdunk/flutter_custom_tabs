@@ -22,8 +22,16 @@ dependencies:
       url: https://github.com/snkrdunk/flutter_custom_tabs.git
       ref: chore/merge_upstream
       path: flutter_custom_tabs_web
-  flutter_custom_tabs_android: ^2.3.1
-  flutter_custom_tabs_ios: ^2.4.0
+  flutter_custom_tabs_android:
+    git:
+      url: https://github.com/snkrdunk/flutter_custom_tabs.git
+      ref: chore/merge_upstream
+      path: flutter_custom_tabs_web
+  flutter_custom_tabs_ios:
+    git:
+      url: https://github.com/snkrdunk/flutter_custom_tabs.git
+      ref: chore/merge_upstream
+      path: flutter_custom_tabs_web
   meta: ^1.10.0
 
 dev_dependencies:
